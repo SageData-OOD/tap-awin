@@ -214,7 +214,7 @@ class PublishersStream(AwinStream):
     name = "publishers"
     parent_stream_type = AccountsStream
     ignore_parent_replication_keys = True
-    path = "/advertisers/{account_id}/publishers/"
+    path = "/advertisers/{account_id}/publishers"
     primary_keys = ["id"]
     replication_key = None
     records_jsonpath = "$[*]"
@@ -315,6 +315,16 @@ class ReportByPublisherStream(AwinStream):
         th.Property("declinedComm", th.NumberType),
         th.Property("tags", th.ArrayType(th.StringType)),
     ).to_dict()
+
+    def get_records(self, context: Optional[dict] = None) -> Iterable[Dict[str, Any]]:
+        """Return a generator of row-type dictionary objects.
+        Each row emitted should be a dictionary of property names to their values.
+        """
+        if context["account_type"] != "advertiser":
+            self.logger.debug("Skipping account {account_id} publishers.".format(account_id=context["account_id"]))
+            return []
+
+        return super().get_records(context)
 
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
