@@ -348,6 +348,9 @@ class ReportByPublisherStream(AwinStream):
             'dateType': 'transaction',
             'accessToken': self.config.get("api_token")
         }
+
+        self.logger.debug("URL params: %s", params)
+        
         return params
 
     def get_next_page_token(
