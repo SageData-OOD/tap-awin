@@ -63,6 +63,8 @@ class TransactionsStream(AwinStream):
     next_page_token_jsonpath = None
     schema = th.PropertiesList(
         th.Property("id", th.IntegerType),
+        th.Property("accountId", th.IntegerType),
+        th.Property("accountType", th.StringType),
         th.Property("url", th.StringType),
         th.Property("advertiserId", th.IntegerType),
         th.Property("publisherId", th.IntegerType),
@@ -79,7 +81,8 @@ class TransactionsStream(AwinStream):
             th.Property("amount", th.NumberType),
             th.Property("currency", th.StringType),
         )),
-        th.Property("ipHash", th.IntegerType),
+        th.Property("ipHash", th.StringType),
+        th.Property("customerAcquisition", th.StringType),
         th.Property("customerCountry", th.StringType),
         th.Property("clickRefs", th.ObjectType(
             th.Property("clickRef", th.StringType),
@@ -137,6 +140,10 @@ class TransactionsStream(AwinStream):
         th.Property("paidToPublisher", th.BooleanType),
         th.Property("paymentId", th.IntegerType),
         th.Property("transactionQueryId", th.IntegerType),
+        th.Property("trackedCurrencyAmount", th.ObjectType(
+            th.Property("amount", th.NumberType),
+            th.Property("currency", th.StringType),
+        )),
         th.Property("originalSaleAmount", th.NumberType),
         th.Property("advertiserCost", th.ObjectType(
             th.Property("amount", th.NumberType),
