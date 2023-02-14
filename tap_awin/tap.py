@@ -49,6 +49,12 @@ class TapAwin(Tap):
             default=30,
             description="Number of days to lookback to re-sync transactions"
         ),
+        th.Property(
+            "properties",
+            th.StringType,
+            default="Legacy",
+            description="Legacy cmd line arg"
+        ),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:
